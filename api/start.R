@@ -36,7 +36,7 @@ path <- file.path(dirname(getwd()), "r", "r-api")
 #* @preempt auth
 cors <- function(req, res) {
     res$setHeader("Access-Control-Allow-Origin", "*")
-    res$setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+    res$setHeader("Access-Control-Allow-Methods", "GET, OPTIONS")
     res$setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept, Origin, X-Requested-With")
     res$setHeader("Access-Control-Max-Age", "3600")
     
@@ -127,6 +127,8 @@ function(req, res) {
         return(list(error = "Environment variable SUPABASE_SERVICE_ROLE_TOKEN is not set"))
     }
 
+    
+
     # Get the content from the request
     content <- req$QUERY_STRING # not yet supported
 
@@ -147,11 +149,17 @@ function(req, res) {
         "Content-Profile" = "public"
     )
 
-    response <- POST(
-        url = paste0(supabase_url, "/rest/v1/r_monitor"),
-        add_headers(headers),
-        body = body
-    )
+    # Print debugging info
+    cat("Received request to run script\n")
+
+    ##response <- POST(
+    ##    url = paste0(supabase_url, "/rest/v1/r_monitor"),
+    ##    add_headers(headers),
+    ##    body = body
+    ##)
+
+    # Print debugging info
+    cat("after monitor\n")
 
 
     # Calculate base path to the 'r' directory relative to start.R's location
@@ -193,11 +201,11 @@ function(req, res) {
     )
     body <- toJSON(data_to_insert, auto_unbox = TRUE)
 
-    response <- POST(
-        url = paste0(supabase_url, "/rest/v1/r_monitor"),
-        add_headers(headers),
-        body = body
-    )
+    ##response <- POST(
+    ##    url = paste0(supabase_url, "/rest/v1/r_monitor"),
+    ##    add_headers(headers),
+    ##    body = body
+    ##)
 
     # Return the result
     return(list(message = "Script executed successfully", result = result))

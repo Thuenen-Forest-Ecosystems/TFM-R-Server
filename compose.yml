@@ -7,7 +7,7 @@ services:
     #command: /api/start.R
     volumes:
       - ./api:/api
-      - ./FTM-R:/r
+      - ./TFM-R:/r
       - ./.env:/.env
     environment:
       SUPABASE_URL: ${SUPABASE_URL}
