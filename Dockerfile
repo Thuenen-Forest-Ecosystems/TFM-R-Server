@@ -21,7 +21,7 @@ RUN R -e "remotes::install_local('/tmp/bwi.derived', upgrade = 'never')" > /tmp/
 RUN R -e "if (!requireNamespace('bwi.derived', quietly = TRUE)) { stop('bwi.derived package not found after installation') }"
 
 # Install other required R packages
-RUN R -e "install.packages(c('plumber', 'httr', 'jsonlite', 'dotenv', 'RPostgres', 'RPostgreSQL', 'stringr', 'DBI'), repos='https://cloud.r-project.org')"
+RUN R -e "install.packages(c('plumber', 'httr', 'jsonlite', 'dotenv', 'RPostgres', 'RPostgreSQL', 'stringr', 'DBI', 'rBDAT'), repos='https://cloud.r-project.org')"
 
 # Set the working directory
 WORKDIR /api

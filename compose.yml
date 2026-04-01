@@ -15,4 +15,18 @@ services:
       #HOST_DOCKER_INTERNAL: host.docker.internal
     restart: unless-stopped
     ports:
-     - "7005:7005"
+      - "7005:7005"
+
+  # Background worker: listens for pg_notify and triggers derived calculations
+  r-derived-listener:
+    build: .
+    command: ["Rscript", "/r/api/pg_notify_listener.R"]
+    volumes:
+      - ./TFM-R:/r
+      - ./.env:/.env
+    environment:
+      apikey: ${SUPABASE_KEY}
+      R_API_BASE: http://r-plumber:7005
+    restart: unless-stopped
+    depends_on:
+      - r-plumber
