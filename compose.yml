@@ -11,9 +11,9 @@ services:
       - ./api:/api
       - ./TFM-R:/r
     environment:
-      #SUPABASE_URL: http://host.docker.internal:54321
       apikey: ${SUPABASE_KEY}
-      #HOST_DOCKER_INTERNAL: host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped
     ports:
       - "7005:7005"
@@ -29,6 +29,8 @@ services:
     environment:
       apikey: ${SUPABASE_KEY}
       R_API_BASE: http://r-plumber:7005
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped
     depends_on:
       - r-plumber
