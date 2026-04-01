@@ -41,4 +41,4 @@ services:
 networks:
   supabase-net:
     external: true
-    name: TFM-Server_supabase-net # matches `name: TFM-Server` in TFM-Server/docker-compose.yaml
+    name: tfm-server_supabase-net # Docker Compose v2 lowercases project names; `name: TFM-Server` → tfm-server
