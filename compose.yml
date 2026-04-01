@@ -13,7 +13,7 @@ services:
     environment:
       apikey: ${SUPABASE_KEY}
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:host-gateway" # allows R to access host services (e.g., database) via host.docker.internal
     restart: unless-stopped
     ports:
       - "7005:7005"
@@ -31,6 +31,14 @@ services:
       R_API_BASE: http://r-plumber:7005
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      - default
+      - supabase-net # reach supabase-db:5432 directly (no host port mapping needed)
     restart: unless-stopped
     depends_on:
       - r-plumber
+
+networks:
+  supabase-net:
+    external: true
+    name: TFM-Server_supabase-net # matches `name: TFM-Server` in TFM-Server/docker-compose.yaml
