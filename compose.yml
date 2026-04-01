@@ -35,6 +35,8 @@ services:
     environment:
       apikey: ${SUPABASE_KEY}
       R_API_BASE: http://r-plumber:7005
+      SUPABASE_PG_HOST: supabase-db  # always use direct Docker network, not host
+      SUPABASE_PG_PORT: "5432"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
