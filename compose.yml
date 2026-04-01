@@ -5,10 +5,11 @@ services:
   r-plumber:
     build: .
     #command: /api/start.R
+    env_file:
+      - .env
     volumes:
       - ./api:/api
       - ./TFM-R:/r
-      - ./.env:/.env
     environment:
       #SUPABASE_URL: http://host.docker.internal:54321
       apikey: ${SUPABASE_KEY}
@@ -21,9 +22,10 @@ services:
   r-derived-listener:
     build: .
     command: ["Rscript", "/r/api/pg_notify_listener.R"]
+    env_file:
+      - .env
     volumes:
       - ./TFM-R:/r
-      - ./.env:/.env
     environment:
       apikey: ${SUPABASE_KEY}
       R_API_BASE: http://r-plumber:7005
