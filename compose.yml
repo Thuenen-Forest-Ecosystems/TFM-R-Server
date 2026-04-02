@@ -12,8 +12,14 @@ services:
       - ./TFM-R:/r
     environment:
       apikey: ${SUPABASE_KEY}
+      SUPABASE_URL: http://kong:8000 # use internal Docker network, not host-mapped port
+      SUPABASE_PG_HOST: supabase-db
+      SUPABASE_PG_PORT: "5432"
     extra_hosts:
       - "host.docker.internal:host-gateway" # allows R to access host services (e.g., database) via host.docker.internal
+    networks:
+      - default
+      - supabase-net # reach kong:8000 and supabase-db:5432 directly
     restart: unless-stopped
     ports:
       - "7005:7005"
@@ -35,7 +41,7 @@ services:
     environment:
       apikey: ${SUPABASE_KEY}
       R_API_BASE: http://r-plumber:7005
-      SUPABASE_PG_HOST: supabase-db  # always use direct Docker network, not host
+      SUPABASE_PG_HOST: supabase-db # always use direct Docker network, not host
       SUPABASE_PG_PORT: "5432"
     extra_hosts:
       - "host.docker.internal:host-gateway"
